@@ -1,0 +1,27 @@
+import { Router } from 'express';
+
+import UserController from './app/controllers/UserController.js';
+import SessinController from './app/controllers/SessinController.js';
+import ProductController from './app/controllers/ProductController.js';
+import multer from 'multer';
+import multerConfig from './config/multer.cjs';
+import authMiddleware from './middlewares/auth.js';
+import CategoryController from './app/controllers/CategoryController.js';
+import adminMiddleware from './middlewares/admin.js';
+
+const routes = new Router();
+
+const uploads = multer(multerConfig);
+
+routes.post('/user', UserController.store);
+routes.post('/session', SessinController.store);
+routes.post('/category', uploads.single('file'), CategoryController.store);
+routes.put('/categories/:id', uploads.single('file'), CategoryController.update);
+
+
+routes.use(authMiddleware);//aparti daqui todas as rotas vao pedir o token
+routes.get('/category-all', adminMiddleware, CategoryController.index);
+routes.get('/products', ProductController.index);
+routes.post('/product', uploads.single('file'), ProductController.store);
+
+export default routes;
