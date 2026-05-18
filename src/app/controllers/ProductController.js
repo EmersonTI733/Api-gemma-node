@@ -1,6 +1,7 @@
 import { v4 } from 'uuid';
 import Product from './../models/Product.js';
 import * as yup from 'yup';
+import Category from '../models/Category.js';
 
 class ProductController {
 	async store(request, response) {
@@ -19,6 +20,7 @@ class ProductController {
 		// validacao do request
 		const { name, price, category_id } = request.body;
 		const {filename} = request.file;
+
 
 		try {
 			const products = await Product.create({

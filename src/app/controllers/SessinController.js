@@ -30,7 +30,11 @@ class SessionController {
 
             //gerando token para login
             const token = jwt.sign(
-                {id: verifyUser.id, admin: verifyUser.admin},//dados de payload
+                {
+                    id: verifyUser.id,
+                    admin: verifyUser.admin,
+                    name: verifyUser.name,
+                },//dados de payload
                 authconfig.secret,//palavra secreta
                 {expiresIn: authconfig.expiresIn}//data de expiracao
             );

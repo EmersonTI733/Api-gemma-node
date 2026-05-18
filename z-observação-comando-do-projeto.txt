@@ -1,0 +1,16 @@
+sequelize:
+Para criar migrations
+$ pnpm sequelize migration:create --name nome-da-migration
+reverter migration:
+$ pnpm sequelize migration:create:undo --name nome-da-migration
+
+Subir para o banco as migrations:
+$ pnpm sequelize db:migrate
+
+////////////////////////////////////////////////////////////////////////
+comando de criancao do banco de dados mongo no docker:
+$ docker run --name api-for-restaurant -p 27017:27017 -d mongo
+
+Instalar o mongo db compass.
+Adicionar orm: 
+$ pnpm add mongoose

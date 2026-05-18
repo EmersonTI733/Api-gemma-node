@@ -17,6 +17,7 @@ const authMiddleware = (request, response, next)=>{
             }
             request.userId = decoded.id; //criando este valor na request
             request.userIsAdmin = decoded.admin; //criando este valor na request
+            request.userName = decoded.name;
         });
 
         return next();

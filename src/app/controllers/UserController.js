@@ -22,7 +22,7 @@ class UserController {
 			});
 			try{
 				Schema.validateSync(request.body, {abortEarly:false, strict:true});
-			}catch(err){
+			}catch(_err){
 				return response.status(400).json({message:'Digite dados validos!'});
 			}
 			// validacao do request
@@ -44,7 +44,7 @@ class UserController {
 				name: usercreate.name,
 				admin: usercreate.admin,
 			});
-		} catch (err) {
+		} catch (_err) {
 			return response.status(400).json({message:'Digite dados validos!'});
 		}
 	}
