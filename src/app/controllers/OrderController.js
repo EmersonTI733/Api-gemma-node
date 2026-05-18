@@ -27,33 +27,32 @@ class OrderController {
 
 		const findedProduct = await Product.findAll({
 			where: {
-				id: arrayIdProduct
+				id: arrayIdProduct,
 			},
-            include:{
-                model: Category,
-                as: 'categories',
-                attributes: ['name_category']
-            }
+			include: {
+				model: Category,
+				as: 'categories',
+				attributes: ['name_category'],
+			},
 		});
-        console.log(findedProduct)
 
 		const mapedProducts = findedProduct.map((product) => {
-            const quantity = products.find((p)=> p.id === product.id).quantity;
+			const quantity = products.find((p) => p.id === product.id).quantity;
 			const Products = {
 				id: product.id,
 				name: product.name,
 				price: product.price,
 				url: product.url,
-				//category: product.category.name_category,
-                quantity,
+				category: product.categories.name_category,
+				quantity,
 			};
-           
+
 			return Products;
 		});
 
-        // somar precos e enviar total a pagar
+		// somar precos e enviar total a pagar
 		const sumPrice = mapedProducts.reduce((total, value) => {
-			return total + (value.price*value.quantity);
+			return total + value.price * value.quantity;
 		}, 0);
 
 		const order = {
@@ -62,14 +61,15 @@ class OrderController {
 				name: userName,
 			},
 			products: mapedProducts,
-            paymentprice: sumPrice,
-            status: 'Pedido Realizado com sucesso!'
+			paymentprice: sumPrice,
+			status: 'Pedido Realizado com sucesso!',
 		};
 
-        // const newOrder = await Order.create(order);
+		const newOrder = await Order.create(order);
 
-		return response.status(201).json(order);
+		return response.status(201).json(newOrder);
 	}
+	/////////////////////////////////////////////////////////////////////
 }
 
 export default new OrderController();

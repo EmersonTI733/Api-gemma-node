@@ -38,12 +38,13 @@ class ProductController {
 	async index(request, response){
 		try {
 			const products = await Product.findAll({
-			include:{
+			include:[{
 				model: Category,
 				as: 'categories',
 				attributes:['id', 'name_category']
-			}
+			}]
 		});
+		
 
 		return response.status(200).json(products);
 		} catch (error) {
