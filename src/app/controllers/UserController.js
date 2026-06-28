@@ -45,7 +45,7 @@ class UserController {
 				admin: usercreate.admin,
 			});
 		} catch (_err) {
-			return response.status(400).json({message:'Digite dados validos!'});
+			return response.status(400).json({message:'Digite dados validos!1'});
 		}
 	}
 }

@@ -14,12 +14,13 @@ class Database {
 	}
 	init() {
 		this.connection = new Sequelize(databaseConfig);
-        models.map((model) => model.init(this.connection))
-		.map((model) => model.associate && model.associate(this.connection.models),)
+		models.map((model) => model.init(this.connection))
+			.map((model) => model.associate && model.associate(this.connection.models),)
 	}
 
 	mongo(){
-		this.mongooseConnection = mongoose.connect('mongodb://localhost:27017/api-for-restaurant');
+		const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/api-for-restaurant';
+		this.mongooseConnection = mongoose.connect(mongoUri);
 	}
 };
 

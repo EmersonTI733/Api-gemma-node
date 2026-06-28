@@ -1,0 +1,59 @@
+services:
+  server:
+    build:
+      context: .
+    environment:
+      NODE_ENV: production
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: 1234
+      DB_NAME: api_for_restaurant
+      MONGODB_URI: mongodb://mongodb:27017/api-for-restaurant
+    ports:
+      - 3001:3001
+    depends_on:
+      mysql:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
+    networks:
+      - api-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-api-restaurant
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: api_for_restaurant
+    ports:
+      - 3307:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./uploads:/usr/src/uploads
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - api-network
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb-api-restaurant
+    ports:
+      - 27018:27017
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - api-network
+
+volumes:
+  mysql-data:
+  mongodb-data:
+
+networks:
+  api-network:
+    driver: bridge
+
